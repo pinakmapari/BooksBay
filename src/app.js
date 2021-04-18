@@ -20,7 +20,7 @@ app.set("views", template_path)
 hbs.registerPartials(partials_path)
 
 app.get('/', (req, res)=>{
-    res.render("index")
+    res.render("index2")
 });
 
 app.get("/register", (req, res)=>{
