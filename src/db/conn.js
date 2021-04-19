@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 
-mongoose.connect("mongodb://localhost:27017/userLogin", {
+mongoose.connect("mongodb+srv://booksbay:somethingcreative@cluster0.fnsps.mongodb.net/booksbay?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
 }).then(()=> {
     console.log(`Connection Successful`);
 }).catch(()=>{

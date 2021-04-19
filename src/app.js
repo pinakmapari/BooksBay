@@ -20,7 +20,7 @@ app.set("views", template_path)
 hbs.registerPartials(partials_path)
 
 app.get('/', (req, res)=>{
-    res.render("index2")
+    res.render("index1")
 });
 
 app.get("/register", (req, res)=>{
@@ -28,7 +28,7 @@ app.get("/register", (req, res)=>{
 })
 
 app.get("/login", (req, res)=>{
-    res.render('login')
+    res.render('index2')
 })
 //create a new user in our database
 app.post("/register", async (req, res)=>{
@@ -48,7 +48,7 @@ app.post("/register", async (req, res)=>{
             })
 
             const registered = await registerUser.save();
-            res.status(201).render("index");
+            res.status(201).render("index1");
         }else{
             res.send('Passwords are not matching')
         }
@@ -65,7 +65,7 @@ app.post("/login", async (req,res)=>{
 
         const  useremail = await Register.findOne({email:email});
         if(useremail.password === password){
-            res.status(201).render("index")
+            res.status(201).render("index1")
         }else{
             res.send('Invalid login details...')
         }
