@@ -2,6 +2,7 @@ const express = require('express')
 const app = express();
 const hbs = require('hbs')
 const path = require('path')
+const ejs= require('ejs')
 
 require("./db/conn");
 const Register = require('./models/userregister')
@@ -17,10 +18,19 @@ app.use(express.urlencoded({extended:false}))
 app.use(express.static(static_path))
 app.set("view engine", "hbs")
 app.set("views", template_path)
+app.set("view engine", "ejs");
 hbs.registerPartials(partials_path)
+//newly added for demo
+const homeStartingContent =
+    "This is Bansi";
+const aboutContent =
+    "hello world";
+const contactContent =
+    "contact us at";
+const posts = [];
 
 app.get('/', (req, res)=>{
-    res.render("index")
+    res.render("index1", { startingContent: homeStartingContent, Posts: posts })
 });
 
 app.get("/register", (req, res)=>{
@@ -28,7 +38,7 @@ app.get("/register", (req, res)=>{
 })
 
 app.get("/login", (req, res)=>{
-    res.render('login')
+    res.render('index2')
 })
 //create a new user in our database
 app.post("/register", async (req, res)=>{
@@ -48,7 +58,7 @@ app.post("/register", async (req, res)=>{
             })
 
             const registered = await registerUser.save();
-            res.status(201).render("index");
+            res.status(201).render("index1");
         }else{
             res.send('Passwords are not matching')
         }
@@ -65,7 +75,7 @@ app.post("/login", async (req,res)=>{
 
         const  useremail = await Register.findOne({email:email});
         if(useremail.password === password){
-            res.status(201).render("index")
+            res.status(201).render("index1")
         }else{
             res.send('Invalid login details...')
         }
@@ -75,6 +85,19 @@ app.post("/login", async (req,res)=>{
         res.status(400).send("Invalid login details...")
     }
 })
+
+app.get("/compose", function (req, res) {
+    res.render("compose");
+});
+app.post("/compose", function (req, res) {
+    const post = {
+        title: req.body.postTitle,
+        content: req.body.postBody,
+    };
+    posts.push(post);
+
+    res.redirect("index1");
+});
 
 app.listen(port, ()=>{
     console.log(`Server is live at port ${port}`);
