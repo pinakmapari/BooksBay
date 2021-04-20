@@ -5,8 +5,8 @@ const bodyParser = require("body-parser");
 const hbs = require("hbs");
 const mongoose = require("mongoose");
 
-// const Register= require("./models/registers");
-// const dbURI = 'mongodb+srv://brainless_heads:bansi_mam@project1.uubcc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+// const Register= require("./models/userregister");
+// const dbURI = 'mongodb+srv://';
 
 const static_path = path.join(__dirname, "/public")
 const viewPath = path.join(__dirname, "/templates/views")
@@ -24,14 +24,17 @@ hbs.registerPartials(partialsPath)
 
 
 app.get("/", (req,res)=>{
-    res.render('index.hbs');
+    res.render('index');
 })
 
 app.get('/register', (req,res)=>{
     res.render('register');
 })
 app.get('/login', (req,res)=>{
-    res.render('register');
+    res.render('login');
+})
+app.post('/login', (req,res)=>{
+    res.redirect('index');
 })
     
 app.listen(8000, ()=>{
